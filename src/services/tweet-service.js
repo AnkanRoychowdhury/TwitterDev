@@ -22,12 +22,6 @@ class TweetService {
             tag.tweets.push(tweet.id);
             tag.save();
         });
-        /**
-         * TODO => create hashtags and add here
-         * 1. bulkCreate in mongoose
-         * 2. filter title of hashtag based on multiple tags
-         * 3. How to add tweet id inside all the hashtags
-         */
         return tweet;
     }
 
