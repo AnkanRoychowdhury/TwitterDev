@@ -1,7 +1,7 @@
-const express = require('express');
-const { PORT } = require('./config/serverConfig');
-const DBConnect = require('./config/dbConfig');
-
+import express from 'express';
+import { PORT } from './config/serverConfig.js';
+import { DBConnect } from './config/dbConfig.js';
+import TweetService from './services/tweet-service.js';
 
 const setupAndStartServer = async () => {
 

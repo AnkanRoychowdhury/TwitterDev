@@ -1,9 +1,9 @@
-const mongoose = require("mongoose");
+import mongoose from 'mongoose'
 
 const URI = process.env.CONNECTION_URI;
 const DB_NAME = process.env.DB_NAME;
 
-const DBConnect = async () => {
+export const DBConnect = async () => {
     try {
         const connection = await mongoose.connect(`${URI}${DB_NAME}`);
         if(connection.STATES.connected){
@@ -13,5 +13,3 @@ const DBConnect = async () => {
         throw {error};
     }
 }
-
-module.exports = DBConnect;
