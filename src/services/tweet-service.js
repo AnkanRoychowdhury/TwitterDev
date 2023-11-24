@@ -26,7 +26,7 @@ export default class TweetService {
     #generateTags(content){
         try {
             let tags = content.match(/#[a-zA-Z0-9_]+/g);
-            tags = tags.map((tag) => tag.substring(1));
+            tags = tags.map((tag) => tag.substring(1).toLowerCase());
             return tags;
         } catch (error) {
             console.log('Unable to generate tags');
