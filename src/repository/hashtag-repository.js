@@ -1,5 +1,10 @@
 import { Hashtag } from "../models/index.js";
-export default class HashtagRepository {
+import CrudRepository from './crud-repository.js';
+export default class HashtagRepository extends CrudRepository {
+
+    constructor(){
+        super(Hashtag);
+    }
     
     async bulkCreateHashtag(data){
         try {
@@ -16,24 +21,6 @@ export default class HashtagRepository {
                 title: titleList
             });
             return hashtags;
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
-    async updateHashtag(hashtagId, data){
-        try {
-            const hashtag = await Hashtag.findByIdAndUpdate(hashtagId, data, {new: true});
-            return hashtag;
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
-    async deleteHashtag(hashtagId){
-        try {
-            const response = await Hashtag.findByIdAndRemove(hashtagId);
-            return response;
         } catch (error) {
             console.log(error);
         }
