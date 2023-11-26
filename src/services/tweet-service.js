@@ -23,6 +23,15 @@ export default class TweetService {
         return tweet;
     }
 
+    async getTweet (tweetId) {
+        try {
+            const tweet = await this.tweetRepository.getTweetWithComments(tweetId);
+            return tweet;
+        } catch (error) {
+            throw error;
+        }
+    }
+
     #generateTags(content){
         try {
             let tags = content.match(/#[a-zA-Z0-9_]+/g);

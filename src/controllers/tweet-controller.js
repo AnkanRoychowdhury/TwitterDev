@@ -21,3 +21,22 @@ export const createTweet = async(req,res) => {
         });
     }
 }
+
+export const getTweet = async(req,res) => {
+    try {
+        const response = await tweetService.getTweet(req.params.id);
+        return res.status(StatusCodes.OK).json({
+            data: response,
+            success: true,
+            message: 'Successfully fetched the tweet',
+            err: {}
+        });
+    } catch (error) {
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+            data: {},
+            success: false,
+            message: 'Unable to fetch tweet',
+            err: error
+        });
+    }
+}
