@@ -8,6 +8,7 @@ const reactionSchema = new mongoose.Schema({
     },
     reactable: {
         type: mongoose.Schema.Types.ObjectId,
+        required: true,
         refPath: 'onModel'
     },
     user: {

@@ -32,4 +32,13 @@ export default class TweetRepository extends CrudRepository{
             console.log(error);
         }
     }
+
+    async find(id) {
+        try {
+            const tweet = await Tweet.findById(id).populate({path: 'reacts'});
+            return tweet;
+        } catch (error) {
+            console.log(error);
+        }
+    }
 }
