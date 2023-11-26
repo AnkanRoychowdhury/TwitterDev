@@ -5,7 +5,7 @@ const reactionService = new ReactionService();
 
 export const toggleReact = async(req,res) => {
     try {
-        const response = await reactionService.toggleReaction(req.query.modelId,req.query.modelType,req.body.userId);
+        const response = await reactionService.toggleReaction(req.query.modelId,req.query.modelType,req.user.id);
         return res.status(StatusCodes.OK).json({
             data: response,
             success: true,
