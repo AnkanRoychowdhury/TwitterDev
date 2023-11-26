@@ -17,22 +17,28 @@ export default class UserService {
         }
     }
 
-    async signIn (email,plainPassword) {
+    async signIn (email,userInputPassword) {
         try {
-            /**
-             * Step 1 => Fetch the user using email
-             * Step 2 => Compare incoming plain password with stores encrypted password
-             */
-            const user = await this.userRepository.getUserByEmail(email);
-            const matchPassword = this.#checkPassword(plainPassword,user.password);
+            const user = await this.getUserByEmail(email);
+            if(!user){
+                throw new AppError(
+                    'UserNotFound',
+                    'No user found',
+                    "User doesn't exist with the given email & password",
+                    StatusCodes.UNAUTHORIZED
+                );
+            }
+            const matchPassword = user.comparePassword(userInputPassword);
             if(!matchPassword){
                 throw new AppError(
                     'EmailNotFound',
-                    'Please check your email & password',
-                    "User doesn't exist with the given email & password",
-                    StatusCodes.NOT_FOUND
+                    'Wrong Password',
+                    "Please check your email & password",
+                    StatusCodes.UNAUTHORIZED
                 );
             }
+            const token = user.generateJWT();
+            return token;
         } catch (error) {
             if(error.name == 'EmailNotFound'){
                 throw error;
@@ -41,26 +47,10 @@ export default class UserService {
         }
     }
 
-    #checkPassword (userInputPassword, encryptedPassword) {
+    async getUserByEmail(email){
         try {
-            return bcrypt.compareSync(userInputPassword, encryptedPassword);
-        } catch (error) {
-            throw error;
-        }
-    }
-
-    async isAdmin(userId){
-        try {
-            const response = await this.userRepository.isAdmin(userId);
-            if(!response){
-                throw new AppError(
-                    "AuthorizationIssue",
-                    "Not Authorized",
-                    "User is not authorized as Admin",
-                    StatusCodes.UNAUTHORIZED
-                );
-            }
-            return response;
+            const user = await this.userRepository.find({email});
+            return user;
         } catch (error) {
             throw error;
         }

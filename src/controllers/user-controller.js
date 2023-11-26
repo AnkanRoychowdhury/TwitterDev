@@ -25,3 +25,21 @@ export const signUp = async(req,res) => {
         })
     }
 }
+
+export const signIn = async(req,res) => {
+    try {
+        const response = await userService.signIn(req.body.email,req.body.password);
+        return res.status(StatusCodes.OK).json({
+            data: response,
+            message: 'Successfully Logged In',
+            success: true,
+            err: {}
+        });
+    } catch (error) {
+        return res.status(error.statusCode).json({
+            message: error.message,
+            success: false,
+            err: error.explanation
+        });
+    }
+}

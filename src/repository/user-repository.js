@@ -23,4 +23,13 @@ export default class UserRepository extends CrudRepository {
             console.log(error)
         }
     }
+
+    async find(data){
+        try {
+            const user = await User.findOne(data);
+            return user;
+        } catch (error) {
+            throw error;
+        }
+    }
 }
