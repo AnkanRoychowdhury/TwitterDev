@@ -5,6 +5,11 @@ const commentSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
     onModel: {
         type: String,
         required: true,
@@ -15,13 +20,14 @@ const commentSchema = new mongoose.Schema({
         required: true,
         refPath: 'onModel'
     },
-    userId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
-    }
+    comments: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Comment'
+        }
+    ]
 }, {timestamps: true});
 
-const Comment = mongoose.Model('Comment', commentSchema);
+const Comment = mongoose.model('Comment', commentSchema);
 
 export default Comment;
