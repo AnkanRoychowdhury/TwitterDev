@@ -6,9 +6,12 @@ import { signIn, signUp } from '../../controllers/user-controller.js';
 import { validateUserAuth } from '../../middlewares/auth-request-validator.js';
 import { authenticate } from '../../middlewares/authenticate.js';
 
+// import upload from '../../config/file-upload-s3-config.js';
+// const singleUploader = upload.single('image');
+
 const router = express.Router();
 
-router.post('/tweets', authenticate, createTweet);
+router.post('/tweets', createTweet);
 router.get('/tweets/:id', getTweet)
 
 router.post('/signup', signUp);

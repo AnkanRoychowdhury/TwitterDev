@@ -7,19 +7,21 @@ export default class TweetService {
     }
 
     async createTweet(data){
-        const tags = this.#generateTags(data.content);
         const tweet = await this.tweetRepository.createTweet(data);
-        let alreadyPresentTags = await this.hashtagRepository.findTagByName(tags);
-        let titleOfPresentTags = alreadyPresentTags.map(tags => tags.title);
-        let newTags = tags.filter(tag => !titleOfPresentTags.includes(tag));
-        newTags = newTags.map(tag => {
-            return {title: tag, tweets: [tweet.id]}
-        });
-        await this.hashtagRepository.bulkCreateHashtag(newTags);
-        alreadyPresentTags.forEach((tag) => {
-            tag.tweets.push(tweet.id);
-            tag.save();
-        });
+        const tags = this.#generateTags(data.content);
+        if(tags){
+            let alreadyPresentTags = await this.hashtagRepository.findTagByName(tags);
+            let titleOfPresentTags = alreadyPresentTags.map(tags => tags.title);
+            let newTags = tags.filter(tag => !titleOfPresentTags.includes(tag));
+            newTags = newTags.map(tag => {
+                return {title: tag, tweets: [tweet.id]}
+            });
+            await this.hashtagRepository.bulkCreateHashtag(newTags);
+            alreadyPresentTags.forEach((tag) => {
+                tag.tweets.push(tweet.id);
+                tag.save();
+            });
+        }
         return tweet;
     }
 
