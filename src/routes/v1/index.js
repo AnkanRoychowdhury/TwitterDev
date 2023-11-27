@@ -11,8 +11,8 @@ import { authenticate } from '../../middlewares/authenticate.js';
 
 const router = express.Router();
 
-router.post('/tweets', createTweet);
-router.get('/tweets/:id', getTweet)
+router.post('/tweets', authenticate, createTweet);
+router.get('/tweets/:id',authenticate, getTweet)
 
 router.post('/signup', signUp);
 router.post('/signin', validateUserAuth, signIn);
